@@ -1,0 +1,110 @@
+\input{config.tex}
+\begin{document} 
+
+\begin{multicols}{5}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\section{Simplified Masters}
+\begin{align*}
+	T(n) &= aT(\frac{n}{b})+\Theta(n^d) \\
+	a &\geq 1 \\
+	b &> 1 \\
+	d &\geq 0
+\end{align*}
+\begin{itemize}
+	\item $a > b^d \rightarrow T(n) = \Theta(n^{\log_ba})$
+	\item $a = b^d \rightarrow T(n) = \Theta(n^d\log_bn)$
+	\item $a < b^d \rightarrow T(n) = \Theta(n^d)$
+\end{itemize}
+
+\section{Masters}
+\begin{align*}
+	T(n) &= aT(\frac{n}{b})+f(n) \\
+	a &\geq 1 \\
+	b &> 1
+\end{align*}
+\begin{itemize}
+	\item $f(n) = \mathcal{O}(n^{log_ba-\epsilon})\rightarrow T(n) = \Theta(n^{\log_ba}), \epsilon > 0$
+	\item $f(n) = \Theta(n^{log_ba})\rightarrow T(n) = \Theta(n^{log_ba}\log(n))$
+	\item $f(n) = \Omega(n^{log_ba+\epsilon})\rightarrow T(n) = \Theta(f(n)), \epsilon > 0$
+		and $af(\frac{n}{b}) \leq cf(n)$ for some $c < 1$ and big enough $n$
+	\item case2 ext: $f(n) = \Theta(n^{log_ba}log^k(n)) \rightarrow T(n) = \Theta(n^{log_ba}log^{k+1}(n))$
+\end{itemize}
+
+
+\section{Akra-Bazzi}
+\[
+	T(n) = \sum_{i=1}^ka_iT(b_in)+f(n), n > n_0
+\]
+\begin{itemize}
+	\item $n_0 \geq \frac{1}{b_i}$, $n_0 \geq \frac{1}{1-b_i}$ for each $i$,
+	\item $a_i > 0$ for each $i$,
+	\item $0<b_i$ for each $i$,
+	\item $k \geq 1$,
+	\item $f(n)$ is non-negative function,
+	\item $c_1f(n) \leq f(u) \leq c_2f(n)$, for each $u$ satisfying condition: $b_in\leq u\leq n$
+\end{itemize}
+\[
+	T(n) = \Theta(n^p(1+\int_1^n\frac{f(u)}{u^{p+1}}du))
+\]
+we get $p$ from:
+\[
+	\sum_{i=1}^ka_ib_i^p=1
+\]
+\subsection{Extended Akra-Bazzi}
+\[
+	T(n) = \sum_{i=1}^ka_iT(b_in+h_i(n))+f(n), n > n_0
+\]
+all of the conditions from Akra-Bazzi still hold plus:
+\[
+	|h_i(n)| = \mathcal{O}(\frac{n}{\log^2n})
+\]
+
+\section{Annihilators}
+Steps:
+\begin{itemize}
+	\item Write the recurrence in operator form.
+	\item Extract the annihilator for the recurrence.
+	\item Factor the annihilator (if necessary).
+	\item Extract the generic solution form the annihilator.
+	\item Solve for coefficients using base cases (if known).
+\end{itemize}
+\setlength{\tabcolsep}{0.5em}{\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ | c | c | }
+    \hline
+    \textbf{Operator} & \textbf{Definition}\\\hline
+    addition & $(f+g)(n) := f(n)+g(n)$ \\
+    subtraction & $(f-g)(n) := f(n)-g(n)$ \\
+    multiplication & $(a\cdot f)(n) := a\cdot (f(n))$ \\
+    shift & $E f(n) := f(n+1)$ \\
+    $k$-fold shift & $E^k f(n) := f(n+k)$ \\ \hline
+    composition & $(X+Y)f:= Xf+Yf$ \\
+    & $(X-Y)f:= Xf-Yf$ \\
+    & $XYf:= X(Yf)=Y(Xf)$ \\
+    distribution & $X(f+g)= Xf+Xg$ \\\hline
+\end{tabular}
+}
+\setlength{\tabcolsep}{0.5em}{\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ | c | l | }
+    \hline
+    \textbf{Operator} & \textbf{Functions annihilated}\\\hline
+    $E -1$ & $\alpha$ \\
+    $E -a$ & $\alpha a^n$ \\
+    $(E-a)(E-b)$ & $\alpha a^n+\beta b^n$\hfill (if $a \neq b$) \\
+    $(E-a_0)(E-a_1)\cdots(E-a_k)$ & $\sum_{i=0}^k\alpha_ia_i^n$\hfill (if $a_i$ distinct) \\
+    $(E - 1)^2$ & $\alpha n + \beta$ \\
+    $(E - a)^2$ & $(\alpha n + \beta)a^n$ \\
+    $(E - a)^2(E-b)$ & $(\alpha n + \beta)a^n+\gamma b^n$\hfill (if $a\neq b$)\\
+    $(E - a)^d$ & $(\sum_{i=0}^{d-1}\alpha_in^i)a^n$ \\\hline\hline
+    \multicolumn{2}{|c|}{If $X$ annihilates $f$, then $X$ also annihilates $E f$.} \\
+    \multicolumn{2}{|c|}{If $X$ annihilates both $f$ and $g$, then $X$ also annihilates $f\pm g$.} \\
+    \multicolumn{2}{|c|}{If $X$ annihilates $f$, then $X$ also annihilates $\alpha f$, for any constant $\alpha$.} \\\hline\hline
+    \multicolumn{2}{|c|}{If $X$ annihilates $f$ and $Y$ annihilates $g$, then $XY$ annihilates $f\pm g$.} \\\hline
+\end{tabular}
+}
+
+\end{multicols}
+\end{document}
