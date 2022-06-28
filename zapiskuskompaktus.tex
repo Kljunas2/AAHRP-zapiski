@@ -7,6 +7,48 @@
 \setlength{\multicolsep}{1pt}
 \setlength{\columnsep}{2pt}
 
+\section{Computational complexity}
+\subsection{Tight bound $\Theta$}
+\begin{align*}
+	\Theta(g) = \{&f; \exists c_1,c_2,n_0>0, \\
+	&\forall n>n_0: \\
+	&0 \leq c_1g(n)\leq f(n) \leq c_2g(n)\}
+\end{align*}
+\subsection{Upper bound $\mathcal{O}$}
+\begin{align*}
+	\mathcal{O}(g) = \{&f; \exists c,n_0>0, \\
+	&\forall n>n_0: \\
+	&0 \leq f(n) \leq cg(n)\}
+\end{align*}
+\subsection{Lower bound $\Omega$}
+\begin{align*}
+	\Omega(g) = \{&f; \exists c,n_0>0, \\
+	&\forall n>n_0: \\
+	&0 \leq cg(n) \leq f(n)\}
+\end{align*}
+\subsection{Imprecise boundaries $o$ and $\omega$}
+\[
+	o(g) = \{f;\forall c>0,\exists n_0>0,\forall n > n_0: 0 \leq f(n) < cg(n)\}
+\]
+\[
+	\omega(g) = \{f;\forall c>0,\exists n_0>0,\forall n > n_0: 0 \leq cg(n) < f(n)\}
+\]
+\subsection{Properties}
+\begin{itemize}
+	\item transitivity $f \in \Theta(g) \land g \in \Theta(h) \Rightarrow f \in \Theta(h)$ (for all bounds)
+	\item reflexivity $f \in \Theta(f)$ (for $\Theta$, $\mathcal{O}$ and $\Omega$)
+	\item symmetry $f \in \Theta(g) \Leftrightarrow g \in \Theta(f)$
+	\item transpose symmetry $f \in \mathcal{O}(g) \Leftrightarrow g \in \Omega(f)$ \\
+	$f \in o(g) \Leftrightarrow g \in \omega(f)$
+\end{itemize}
+
+\section{Divide and conquer}
+\begin{itemize}
+	\item \textbf{divide} the problem into several (equal) parts
+	\item (recursively) \textbf{conquer (solve)} each of the sub problems
+	\item \textbf{combine} sub problem solutions
+\end{itemize}
+
 \section{Simplified Masters}
 \begin{align*}
 	T(n) &= aT(\frac{n}{b})+\Theta(n^d) \\
@@ -93,18 +135,110 @@ Steps:
     \textbf{Operator} & \textbf{Functions annihilated}\\\hline
     $E -1$ & $\alpha$ \\
     $E -a$ & $\alpha a^n$ \\
-    $(E-a)(E-b)$ & $\alpha a^n+\beta b^n$\hfill (if $a \neq b$) \\
-    $(E-a_0)(E-a_1)\cdots(E-a_k)$ & $\sum_{i=0}^k\alpha_ia_i^n$\hfill (if $a_i$ distinct) \\
+    $(E-a)(E-b)$ & $\alpha a^n+\beta b^n$\hfill ($a \neq b$) \\
+    $(E-a_0)(E-a_1)\cdots(E-a_k)$ & $\sum_{i=0}^k\alpha_ia_i^n$\hfill ($a_i$ distinct) \\
     $(E - 1)^2$ & $\alpha n + \beta$ \\
     $(E - a)^2$ & $(\alpha n + \beta)a^n$ \\
-    $(E - a)^2(E-b)$ & $(\alpha n + \beta)a^n+\gamma b^n$\hfill (if $a\neq b$)\\
+    $(E - a)^2(E-b)$ & $(\alpha n + \beta)a^n+\gamma b^n$\hfill ($a\neq b$)\\
     $(E - a)^d$ & $(\sum_{i=0}^{d-1}\alpha_in^i)a^n$ \\\hline\hline
     \multicolumn{2}{|c|}{If $X$ annihilates $f$, then $X$ also annihilates $E f$.} \\
-    \multicolumn{2}{|c|}{If $X$ annihilates both $f$ and $g$, then $X$ also annihilates $f\pm g$.} \\
-    \multicolumn{2}{|c|}{If $X$ annihilates $f$, then $X$ also annihilates $\alpha f$, for any constant $\alpha$.} \\\hline\hline
-    \multicolumn{2}{|c|}{If $X$ annihilates $f$ and $Y$ annihilates $g$, then $XY$ annihilates $f\pm g$.} \\\hline
+\multicolumn{2}{|c|}{If $X$ annihilates both $f$ and $g$,} \\
+\multicolumn{2}{|c|}{then $X$ also annihilates $f\pm g$.} \\
+\multicolumn{2}{|c|}{If $X$ annihilates $f$, then $X$ also annihilates $\alpha f$,} \\
+\multicolumn{2}{|c|}{for any constant $\alpha$.} \\\hline\hline
+    \multicolumn{2}{|c|}{If $X$ annihilates $f$ and $Y$ annihilates $g$,}\\
+    \multicolumn{2}{|c|}{then $XY$ annihilates $f\pm g$.} \\\hline
 \end{tabular}
 }
+\section{Randomization}
+To avoid bad input sequences, the input can be intentionally randomized.
+\section{Pseudo random generator}
+\subsection{Linear congruential generators}
+\[
+	x_i = (a x_{i-1} + c) \mod m
+\]
+\begin{itemize}
+	\item RANDU: $x_i = 65539 x_{i-1}\pmod {2^{31}}$
+	\item MINSTD $x_i = 16807 x_{i-1}\pmod {2^{31}-1}$
+	\item Combinations of linear congruential generators. Addition, subtraction, bit mixing.
+		Better randomness, small period.
+	\item higher order recursions
+\end{itemize}
+\subsection{Blum-Blum-Shrub}
+\begin{itemize}
+	\item $p, q\in \mathbb{P}$, large (at least 40 decimal places)
+	\item $m = pq$
+	\item $X_i=X_{i-1}^2 \pmod m$
+	\item $b_i = \text{parity}(X_i)$
+\end{itemize}
+
+
+\section{Amortized analysis}
+\subsection{Aggregated analysis}
+Determine upper bound $T(n)$ for the total cost of a sequence of $n$ operations.
+Amortized cost per operation is $\frac{T(n)}{n}$.
+\subsection{Accounting method}
+Some operations are overcharged to pay for other operations.
+\subsection{Potential method}
+Potential function is tied to a data structure.
+\section{NP-complete problems}
+\begin{itemize}
+	\item CSAT -- logical circuit satisfiability
+	\item FSAT -- logical formula satisfiability
+	\item 3CNF-SAT -- formula in 3-conjuctive normal form satisfiability
+	\item CLIQUE -- existence of cliques in a graph
+	\item VERTEX COVER -- a minimal set of vertices that cover all the edges of a graph
+	\item HAM -- Hamiltonian cycle of a graph
+	\item TSP -- travelling salesman problem
+	\item SUBSET-SUM -- the subset of numbers equal to a given number
+	\item BIN-TREE -- optimal binary decision tree
+	\item SUBGRAPH-ISOMORPHISM
+\end{itemize}
+\section{Linear programming}
+\subsection{Standard LP}
+\begin{itemize}
+	\item given $n$ real numbers $c_1,c_2,\ldots,c_n$
+	\item $m$ real numbers $b_1,b_2,\ldots,b_m$
+	\item $m\times n$ real numbers $a_{ij}$ for $i=1,\ldots,m$ and $j=1,\ldots,n$
+	\item we wish to find $n$ real numbers $x_1,\ldots,x_n$ that
+\end{itemize}
+maximize $\sum_{j=1}^nc_jx_j$ subject to
+\[
+	\sum_{j=1}^na_{ij}x_j\leq b_i, \forall i=1,\ldots,m
+\]
+\[x_j\geq 0\]
+\subsection{Approximation}
+LP relaxation, 0-1 integer programming
+\section{Local search}
+\begin{itemize}
+	\item State space: $S=\{S;S_Z\longrightarrow S\}$
+	\item starting state: $S_0$
+	\item quality of state: $q(S)$
+	\item global optimum: $S_{\text{best}} = \arg \min_{s\in S} q(s)$
+	\item local optima: $S_{\text{local}} = \{S;\forall S\rightarrow S\prime : q(S) \leq q(S\prime)\}$
+\end{itemize}
+\subsection{Problems}
+\begin{itemize}
+	\item local extremes
+	\item plato
+	\item ridge
+\end{itemize}
+\subsection{Metroplis algorithm}
+\begin{itemize}
+	\item If better neighbour exists, move to it.
+	\item Otherwise choose a random neighbour, but accept better neighbours with larger probability.
+	\item Decrease the probability of acceptance.
+	\item In time, stohastic search turns into deterministic LS.
+\end{itemize}
+\subsection{Simulated annealing}
+\begin{itemize}
+	\item Start with a random state $S$.
+	\item Select random neighbour $S\prime$
+	\item If $q(S\prime) < q(S)$, move to $S\prime$.
+	\item Otherwise, move with probability $e^\frac{-(q(S\prime)-q(S))}{T}$
+\end{itemize}
+Decrease temperature while it's not close to zero.
+Usually a geometrical rule is used: $T\prime = \lambda T$, $0<\lambda<1$ (typically $\lambda = 0.95$)
 
 \end{multicols}
 \end{document}
