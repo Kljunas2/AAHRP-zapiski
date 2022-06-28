@@ -260,5 +260,45 @@ In local extreme we punish the property with the largest utility (we increment $
 Idea: define several neighbourhood structures and change neighbourhood when reaching local extreme
 in one of them. Order neighbourhoods by the efficiency of computation.
 
+\section{Swarm intelligence}
+\begin{itemize}
+	\item fixed population
+	\item autonomous individual
+	\item communication between agents
+	\item aggregation of similar animals, generally cruising in the same direction
+	\item simple rules for each individual
+	\item decentralized
+	\item emergent behaviour
+\end{itemize}
+\subsection{Ant colony optimization}
+\begin{itemize}
+	\item ants find the shortest path to food source from the nest
+	\item they deposit pheromone along traveled path, which is used by other ants to follow the trail
+	\item this kind of indirect communication via the local environment is called stigmergy
+	\item adaptability, robustness and redundancy
+\end{itemize}
+Possible daemon actions to apply centralized actions.
+\subsection{Particle swarm optimization}
+\begin{itemize}
+	\item Individuals strive to improve themselves and often achieve this by observing and imitating their neighbours.
+	\item Each individual has the ability to remember.
+	\item Each particle is represented with two vectors, location and velocity.
+\end{itemize}
+\subsubsection{Information exchange in the swarm}
+\begin{itemize}
+	\item historically best location $x^*$
+	\item best location of informants $x^+$
+	\item globally best location $x^!$
+\end{itemize}
+\subsubsection{Moving}
+\begin{itemize}
+	\item Compute the fitness of each particle and update $x^*$, $x^+$ and $x^!$.
+	\item Update the representation of particle.
+		Velocity vector takes into account updated directions $x^*$, $x^+$ and $x^!$.
+		Each direction is updated with some random noise.
+	\item Move the particle in the direction of the velocity vector.
+\end{itemize}
+
+
 \end{multicols}
 \end{document}
