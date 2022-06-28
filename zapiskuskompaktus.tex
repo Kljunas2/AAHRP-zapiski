@@ -239,6 +239,26 @@ LP relaxation, 0-1 integer programming
 \end{itemize}
 Decrease temperature while it's not close to zero.
 Usually a geometrical rule is used: $T\prime = \lambda T$, $0<\lambda<1$ (typically $\lambda = 0.95$)
+\section{Metaheuristics}
+\subsection{Tabu search}
+Idea: to prevent returning back to the same local extreme, supress (parts of) solutions.
+\subsection{Guided local search}
+Metaheuristics which guide local search and helps it avoid local extremes.
+\begin{itemize}
+	\item define properties (attributes) of solutions
+	\item penalize attributes, which occur too often in local extrema
+	\item auxiliary objective function
+		\[h(s) = g(s) + \lambda \cdot \sum_{i\text{ is a feature}}(p_i\cdot I_i(s))\]
+\end{itemize}
+Utility of punishment for property $i$ in local extreme $s*$
+\[
+	\text{util}_i(s*) = I_i(s*) \cdot \frac{c_i}{1+p}
+\]
+$c_i$ is cost, $p_i$ is current punishment for property $i$ \\
+In local extreme we punish the property with the largest utility (we increment $p_i$ by 1).
+\subsection{Variable neighbourhood search}
+Idea: define several neighbourhood structures and change neighbourhood when reaching local extreme
+in one of them. Order neighbourhoods by the efficiency of computation.
 
 \end{multicols}
 \end{document}
